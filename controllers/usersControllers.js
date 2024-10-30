@@ -59,7 +59,7 @@ exports.putIdUsers = async ( req, res ) => {
     const usuario = await User.findByPk(idUsuario);
 
     if(!usuario){
-        return res.status(400).json({msg: "Producto no encontrada"});
+        return res.status(400).json({msg: "Usuario no encontrada"});
     }
 
 
@@ -78,10 +78,10 @@ exports.deleteIdUsers = async ( req, res ) => {
         const usuario = await User.destroy({ where: { idUsuario: idUser } });
 
         if (usuario === 0) {
-            return res.status(404).json({ message: 'Rol no encontrado' });
+            return res.status(404).json({ message: 'Usuario no encontrado' });
           }
 
-        res.json({msg: "producto eliminado"});
+        res.json({msg: "Usuario eliminado"});
     }catch(error){
         console.log(error);}
 }

@@ -2,9 +2,9 @@ const express = require('express');
 const cors = require("cors");
 const connection = require("./config/db.JS");
 const sequelize = require('./models/configSequelize');
-// const Roles = require('./models/roles');
 const User = require('./models/user');
 const usuarioRoutes = require("./routes/usersRoutes");
+const authRouters = require("./routes/authRoutes");
 const rolesRoutes = require("./routes/rolesRoutes")
 require('dotenv').config({ path: './variables.env' });
 
@@ -18,6 +18,7 @@ app.use(express.json({extended: true}));
 
 app.use("/api",usuarioRoutes);
 app.use("/api",rolesRoutes);
+app.use("/api/auth",authRouters);
 
 app.listen(process.env.SERVER_PORT, () =>{
     console.log("El servidor esta corriendo");

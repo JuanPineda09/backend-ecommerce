@@ -7,7 +7,6 @@ const User = sequelize.define('User', {
         type: DataTypes.INTEGER,
         primaryKey: true,
         unique: true,
-        autoIncrement: true,
         allowNull: false,
     },
     nombre: {
@@ -37,7 +36,6 @@ const User = sequelize.define('User', {
     },
 }, {
     tableName: 'users',
-    timestamps: true,
 });
 
 // Definir la relación

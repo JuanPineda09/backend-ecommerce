@@ -5,6 +5,7 @@ const sequelize = require('./models/configSequelize');
 // const Roles = require('./models/roles');
 const User = require('./models/user');
 const usuarioRoutes = require("./routes/usersRoutes");
+const rolesRoutes = require("./routes/rolesRoutes")
 require('dotenv').config({ path: './variables.env' });
 
 const app = express();
@@ -15,7 +16,8 @@ app.use(express.json())
 //Habilitar express.json
 app.use(express.json({extended: true}));
 
-app.use("/api/usuarios",usuarioRoutes);
+app.use("/api",usuarioRoutes);
+app.use("/api",rolesRoutes);
 
 app.listen(process.env.SERVER_PORT, () =>{
     console.log("El servidor esta corriendo");

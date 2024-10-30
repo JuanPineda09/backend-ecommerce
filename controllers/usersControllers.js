@@ -1,33 +1,87 @@
-const bcrypt = require('bcryptjs');
+const bcryptjs = require('bcryptjs');
 const User = require('../models/user');
 
-async function crearUsuario(req, res) {
-    const { nombre, email, password, roleId } = req.body;
 
-    // Verificar que todos los campos requeridos estén presentes
-    if (!nombre || !email || !password || !roleId) {
-        return res.status(400).json({ message: 'Faltan campos obligatorios' });
-    }
-
-    try {
-        // Encriptar la contraseña
-        const hashedPassword = await bcrypt.hash(password, 10);
-        
-        // Crear el nuevo usuario
-        const newUser = await User.create({
-            nombre,
-            email,
-            password: hashedPassword,
-            roleId
-        });
-
-        return res.status(201).json(newUser);
-    } catch (error) {
-        console.error('Error al crear usuario:', error);
-        return res.status(500).json({ message: 'Error al crear usuario' });
-    }
+exports.getUsers = async ( req, res ) => {
+    const usuario = await User.findAll();
+    res.json(usuario);
 }
 
-module.exports = {
-    crearUsuario,
+exports.getIdUsers = async ( req, res ) => {
+    try{
+        const idUser = req.params.idUsuario;
+
+        if (!idUser) {
+            return res.status(400).json({ message: 'El id del usuario es necesario.' });
+        }
+
+        const usuario1 = await User.findOne({ where: { idUsuario: idUser } });
+
+        if (!usuario1) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        
+        res.json(usuario1);
+    }catch(error){
+        console.log(error);}
+}
+
+exports.postUsers = async (req, res) => {
+
+    const {password, idUsuario} = req.body;
+
+    try{
+        //revisar que sea un unico correo y que no se vea el error en el codigo
+        let usuario = await User.findByPk(idUsuario);
+
+        if(usuario){
+            return res.status(400).json({msg:"El usuario ya existe"});
+        }
+
+        //Crear un nuevo usuario
+        usuario = new User(req.body);
+
+        //Hash Encriptar
+        usuario.password = await bcryptjs.hash(password,10);
+
+        //Guardar usuario en la DB
+        const usuarioAlmacenado = await usuario.save();
+        res.json(usuarioAlmacenado);
+
+    }catch(error){
+        console.log(error);
+    }
 };
+
+exports.putIdUsers = async ( req, res ) => {
+    const {idUsuario} = req.params;
+
+    const usuario = await User.findByPk(idUsuario);
+
+    if(!usuario){
+        return res.status(400).json({msg: "Producto no encontrada"});
+    }
+
+
+    usuario.nombre = req.body.nombre  || usuario.nombre;
+    usuario.email = req.body.email  || usuario.email;
+    usuario.password = req.body.password || usuario.password;
+    usuario.roleId = req.body.roleId || usuario.roleId;
+
+    usuario.save();
+    res.json({ usuario });
+}
+
+exports.deleteIdUsers = async ( req, res ) => {
+    try{
+        const idUser = req.params.idUsuario;
+        const usuario = await User.destroy({ where: { idUsuario: idUser } });
+
+        if (usuario === 0) {
+            return res.status(404).json({ message: 'Rol no encontrado' });
+          }
+
+        res.json({msg: "producto eliminado"});
+    }catch(error){
+        console.log(error);}
+}

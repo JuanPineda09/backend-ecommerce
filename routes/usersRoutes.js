@@ -4,14 +4,14 @@ const usersControllers = require('../controllers/usersControllers');
 
 const router = express.Router();
 
-// router.get("/users", usersControllers.getUsers);
+router.get("/users", usersControllers.getUsers);
 
-// router.get("/users/:id", usersControllers.getIdUsers);
+router.get("/users/:idUsuario", usersControllers.getIdUsers);
 
-router.post("/users");
+router.post("/users", usersControllers.postUsers);
 
-// router.delete("/users/:id", usersControllers.deleteIdUsers);
+router.delete("/users/:idUsuario", usersControllers.deleteIdUsers);
 
-// router.put("/users/:id", usersControllers.putIdUsers);
+router.put("/users/:idUsuario", usersControllers.putIdUsers);
 
 module.exports = router;

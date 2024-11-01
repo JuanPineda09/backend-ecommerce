@@ -1,4 +1,5 @@
 const Productos = require('../models/productos');
+// const Categorias = require('../models/categorias');
 
 
 exports.getProductos = async ( req, res ) => {
@@ -24,6 +25,14 @@ exports.getIdProductos = async ( req, res ) => {
     }catch(error){
         console.log(error);}
 }
+// exports.getProductosCategoria = async ( req, res ) => {
+
+//     const {categoriaId} = req.params;
+
+//     const productos = await Productos.findOne({ where: { categoriaId: categoriaId } });
+//     res.json(productos);
+// }
+
 
 exports.postProductos = async (req, res) => {
 

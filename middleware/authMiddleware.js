@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+require('dotenv').config({ path: './variables.env' });
 
 module.exports= function ( req, res, next ){
     //Leer el token desde header de postman
@@ -13,7 +14,8 @@ module.exports= function ( req, res, next ){
     // Validar el token
     try{
         const cifrado = jwt.verify(token, process.env.SECRETA)
-        req.idUsuario= cifrado.idUsuario;
+        console.log(cifrado)
+        req.usuario= cifrado.usuario;
         //console.log(cifrado.usuario);
         next();
     }catch(error){

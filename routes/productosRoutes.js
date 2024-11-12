@@ -9,7 +9,7 @@ router.get("/productos", productosControllers.getProductos);
 
 router.get("/productos/:idProducto", authMiddleware, productosControllers.getIdProductos);
 
-router.post("/productos", productosControllers.postProductos);
+router.post("/productos", authMiddleware, productosControllers.postProductos);
 
 router.delete("/productos/:idProducto", authMiddleware, productosControllers.deleteIdProductos);
 

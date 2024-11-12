@@ -7,19 +7,16 @@ exports.autenticarUsuario = async(req, res) => {
     const {password, email} = req.body;
     try{
         //Revisar que el correo este registrado
-        let usuario = await User.findOne({ email });
-
+        const usuario = await User.findOne({ where: {email: email}});
+        
         if(!usuario){
             return res.status(400).json({msg:"El usuario no existe"});
         }
-        
-        //Validar el password
         const passwordCorrecto = await bcryptjs.compare(password, usuario.password);
-
+    
         if(!passwordCorrecto){
             return res.status(404).json({msg:"password incorrecto"});
         }
-
         // Si todo es correcto: crear y firmar un token
 
         let payload = {
@@ -30,7 +27,7 @@ exports.autenticarUsuario = async(req, res) => {
             payload,
             process.env.SECRETA,
             {
-                expiresIn : '30d', //30 dias
+                expiresIn : '1m', //30 dias
             },
             (error, token) =>{
                 if(error) throw error;

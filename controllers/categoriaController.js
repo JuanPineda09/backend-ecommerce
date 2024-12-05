@@ -44,9 +44,13 @@ exports.putIdCategorias = async ( req, res ) => {
         return res.status(400).json({msg: "Categoria no encontrada"});
     }
 
+    const imagenReq = req.body.descripcion;
+    const imagenBase64 = imagenReq.toString('base64');
+    console.log(imagenBase64)
 
     categoria1.nombre = req.body.nombre  || categoria1.nombre;
     categoria1.descripcion = req.body.descripcion  || categoria1.descripcion;
+    categoria1.imagen = imagenBase64 || categoria1.imagen;
     
     categoria1.save();
     res.json({ categoria1 });

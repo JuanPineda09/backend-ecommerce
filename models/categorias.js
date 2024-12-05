@@ -17,6 +17,10 @@ const Categorias = sequelize.define('Categorias', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    imagen: {
+        type: DataTypes.BLOB,
+        allowNull: false,
+    },
     creacion: {
         type: DataTypes.DATE,
         allowNull: false,

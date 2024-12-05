@@ -24,7 +24,7 @@ app.use(express.json({extended: true}));
 app.use("/api",usuarioRoutes);
 app.use("/api",rolesRoutes);
 app.use("/api/auth",authRouters);
-app.use("/api",categoriasRoutes);
+app.use("/api/",categoriasRoutes);
 app.use("/api",productosRoutes);
 
 app.listen(process.env.SERVER_PORT, () =>{

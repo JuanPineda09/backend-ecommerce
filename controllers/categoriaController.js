@@ -1,3 +1,4 @@
+const { decodeBase64 } = require("bcryptjs");
 const Categorias = require("../models/categorias")
 
 
@@ -26,10 +27,15 @@ exports.getIdCategorias = async ( req, res ) => {
 }
 
 exports.postCategorias = async ( req, res ) => {
+
+    const {imagen} = req.body;
     try{
-        const categoria1 = new Categorias(req.body);
-        categoria1.save();
-        res.json(categoria1);
+        const categoriaNew = new Categorias(req.body);
+
+        decodeBase64(categoriaNew.imagen);
+
+        categoriaNew.save();
+        res.json(categoriaNew);
     }catch(error){
         console.log(error);
     }
@@ -45,7 +51,7 @@ exports.putIdCategorias = async ( req, res ) => {
     }
 
     const imagenReq = req.body.descripcion;
-    const imagenBase64 = imagenReq.toString('base64');
+    const imagenBase64 = decodeBase64(imagenReq);
     console.log(imagenBase64)
 
     categoria1.nombre = req.body.nombre  || categoria1.nombre;

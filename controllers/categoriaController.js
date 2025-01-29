@@ -2,6 +2,8 @@ const Categorias = require("../models/categorias");
 const multer = require('multer');
 const fs = require('node:fs')
 const { validationResult } = require('express-validator');
+const path = require('path');
+const { escape } = require('validator');
 
 exports.getCategorias = async ( req, res ) => {
     const categoria1 = await Categorias.findAll();
@@ -52,8 +54,7 @@ exports.postCategorias = async ( req, res ) => {
         res.json(categoriaNew);
 
     }catch(error){
-        console.log(error);
-        res.status(500).json({ message: "Error al crear la categoría" });
+        res.status(500).json({ message: "Error al crear la categoría: " + error });
     }
 };
 
@@ -63,7 +64,7 @@ async function saveImage(file) {
         throw new Error('Tipo de archivo no permitido');
     }
 
-    const newPath = path.join(__dirname, '../uploads', sanitize(file.originalname));
+    const newPath = path.join(__dirname, '../uploads', escape(file.originalname));
     await fs.promises.rename(file.path, newPath);
     return newPath;
 }

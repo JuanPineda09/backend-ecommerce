@@ -33,7 +33,7 @@ exports.postCategorias = async ( req, res ) => {
     const {nombre, descripcion} = req.body;
 
     try{
-
+        
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
          return res.status(400).json({ errors: errors.array() });
@@ -79,12 +79,11 @@ exports.putIdCategorias = async ( req, res ) => {
     }
 
     const imagenReq = req.body.descripcion;
-    const imagenBase64 = decodeBase64(imagenReq);
-    console.log(imagenBase64)
+
 
     categoria1.nombre = req.body.nombre  || categoria1.nombre;
     categoria1.descripcion = req.body.descripcion  || categoria1.descripcion;
-    categoria1.imagen = imagenBase64 || categoria1.imagen;
+    categoria1.imagen = imagenReq || categoria1.imagen;
     
     categoria1.save();
     res.json({ categoria1 });

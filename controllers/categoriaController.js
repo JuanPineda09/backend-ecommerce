@@ -30,7 +30,7 @@ exports.getIdCategorias = async ( req, res ) => {
 }
 
 exports.postCategorias = async ( req, res ) => {
-    const {nombre, descripcion} = req.body;
+    const {nombre, descripcion, imagen} = req.body;
 
     try{
         
@@ -39,7 +39,7 @@ exports.postCategorias = async ( req, res ) => {
          return res.status(400).json({ errors: errors.array() });
         }
         if (!req.file) {
-            return  await res.status(400).json({ error: 'No se ha subido ningún archivo' }); 
+            return  await res.status(400).json({ error: 'No se ha subido ningún archivo'}); 
         }
 
         const newPath =  await saveImage(req.file);

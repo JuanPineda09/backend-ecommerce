@@ -12,11 +12,13 @@ const rolesRoutes = require("./routes/rolesRoutes")
 const categoriasRoutes = require("./routes/categoriasRoutes");
 const productosRoutes = require("./routes/productosRoutes");
 require('dotenv').config({ path: './variables.env' });
+const path = require('path');
 
 const app = express();
 
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
+app.use(express.static(path.join(__dirname,'uploads')))
 
 //Habilitar express.json
 app.use(express.json({extended: true}));

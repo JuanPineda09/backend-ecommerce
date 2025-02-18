@@ -1,5 +1,4 @@
 const Categorias = require("../models/categorias");
-const multer = require('multer');
 const fs = require('node:fs')
 const { validationResult } = require('express-validator');
 const path = require('path');
@@ -30,7 +29,7 @@ exports.getIdCategorias = async ( req, res ) => {
 }
 
 exports.postCategorias = async ( req, res ) => {
-    const {nombre, descripcion, imagen} = req.body;
+    const {nombre, descripcion} = req.body;
 
     try{
         
@@ -42,11 +41,11 @@ exports.postCategorias = async ( req, res ) => {
             return  await res.status(400).json({ error: 'No se ha subido ningún archivo'}); 
         }
 
-        const newPath =  await saveImage(req.file);
+        const nameImage =  await saveImage(req.file);
         const categoriaNew = new Categorias({
             nombre,
             descripcion,
-            imagen: newPath,
+            imagen: nameImage,
         });
 
 
@@ -64,9 +63,12 @@ async function saveImage(file) {
         throw new Error('Tipo de archivo no permitido');
     }
 
+    const nameImage = file.originalname
+
     const newPath = path.join(__dirname, '../uploads', escape(file.originalname));
     await fs.promises.rename(file.path, newPath);
-    return newPath;
+    
+    return nameImage;
 }
 
 exports.putIdCategorias = async ( req, res ) => {
